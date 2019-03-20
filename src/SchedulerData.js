@@ -782,14 +782,14 @@ export default class SchedulerData {
         //this.events.sort(this._compare);
 
         this.events.forEach((item) => {
-            let resourceEventsList = initRenderData.filter(x => x.slotId === this._getEventSlotId(item));
+            let resourceEventsList = initRenderData.filter(x => this._getEventSlotId(item).includes(x.slotId));
             if(resourceEventsList.length > 0) {
-                let resourceEvents = resourceEventsList[0];
+                let resourceEvents = resourceEventsList;
                 let span = this._getSpan(item.start, item.end, this.headers);
                 let eventStart = this.localeMoment(item.start), eventEnd = this.localeMoment(item.end);
                 let pos = -1;
 
-                resourceEvents.headerItems.forEach((header, index) => {
+                resourceEvents.map(resourceEvent => {resourceEvent.headerItems.forEach((header, index) => {
                     let headerStart = this.localeMoment(header.start), headerEnd = this.localeMoment(header.end);
                     if(headerEnd > eventStart && headerStart < eventEnd) {
                         header.count = header.count + 1;
@@ -804,14 +804,14 @@ export default class SchedulerData {
                         }
                         let render = headerStart <= eventStart || index === 0;
                         if(render === false){
-                            let previousHeader = resourceEvents.headerItems[index - 1];
+                            let previousHeader = resourceEvent.headerItems[index - 1];
                             let previousHeaderStart = this.localeMoment(previousHeader.start), previousHeaderEnd = this.localeMoment(previousHeader.end);
                             if(previousHeaderEnd <= eventStart || previousHeaderStart >= eventEnd)
                                 render = true;
                         }
                         header.events[pos] = this._createHeaderEvent(render, span, item);
                     }
-                });
+                })});
             }
         });
 

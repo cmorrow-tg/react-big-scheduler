@@ -419,7 +419,7 @@ class EventItem extends Component {
                 end = localeMoment(newEnd);
 
             events.forEach((e) => {
-                if (schedulerData._getEventSlotId(e) === slotId && e.id !== eventItem.id) {
+                if (schedulerData._getEventSlotId(e).includes(slotId) && e.id !== eventItem.id) {
                     let eStart = localeMoment(e.start),
                         eEnd = localeMoment(e.end);
                     if ((start >= eStart && start < eEnd) || (end > eStart && end <= eEnd) || (eStart >= start && eStart < end) || (eEnd > start && eEnd <= end))

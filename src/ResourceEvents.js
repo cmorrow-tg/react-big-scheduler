@@ -190,7 +190,7 @@ class ResourceEvents extends Component {
                 end = localeMoment(endTime);
 
             events.forEach((e) =>{
-                if(schedulerData._getEventSlotId(e) === slotId) {
+                if(schedulerData._getEventSlotId(e).includes(slotId)) {
                     let eStart = localeMoment(e.start),
                         eEnd = localeMoment(e.end);
                     if((start >= eStart && start < eEnd) || (end > eStart && end <= eEnd) || (eStart >= start && eStart < end) || (eEnd > start && eEnd <= end))
